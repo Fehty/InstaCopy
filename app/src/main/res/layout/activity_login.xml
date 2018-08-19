@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ff5722">
+
+    <TextView
+        android:id="@+id/loginTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_login_login_title_margin_bottom"
+        android:layout_marginTop="@dimen/activity_login_login_title_margin_top"
+        android:text="@string/activity_login_login_title_text"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/activity_login_login_title_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/loginEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <android.support.design.widget.TextInputEditText
+        android:id="@+id/loginEmail"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_login_login_email_height"
+        android:layout_marginBottom="@dimen/activity_login_login_email_margin_bottom"
+        android:layout_marginEnd="@dimen/activity_login_login_email_margin_end"
+        android:layout_marginStart="@dimen/activity_login_login_email_margin_start"
+        android:background="@drawable/auth_input_data_bg"
+        android:hint="@string/activity_login_login_email_hint_text"
+        android:inputType="textEmailAddress"
+        android:paddingEnd="@dimen/activity_login_login_email_padding_end"
+        android:paddingStart="@dimen/activity_login_login_email_padding_start"
+        app:layout_constraintBottom_toTopOf="@+id/loginPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginTitle"
+        tools:text="@string/activity_login_login_email_tools_text" />
+
+    <android.support.design.widget.TextInputEditText
+        android:id="@+id/loginPassword"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_login_login_password_height"
+        android:layout_marginEnd="@dimen/activity_login_login_password_margin_end"
+        android:layout_marginStart="@dimen/activity_login_login_password_margin_start"
+        android:background="@drawable/auth_input_data_bg"
+        android:hint="@string/activity_login_login_password_hint_text"
+        android:inputType="textPassword"
+        android:paddingEnd="@dimen/activity_login_login_password_padding_end"
+        android:paddingStart="@dimen/activity_login_login_password_padding_start"
+        app:layout_constraintBottom_toTopOf="@+id/loginRegistrationButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginEmail"
+        tools:text="@string/activity_login_login_password_tools_text" />
+
+    <Button
+        android:id="@+id/loginRegistrationButton"
+        style="@style/Base.Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_login_login_registration_button_margin_bottom"
+        android:layout_marginStart="@dimen/activity_login_login_registration_button_margin_start"
+        android:layout_marginTop="@dimen/activity_login_login_registration_button_margin_top"
+        android:text="@string/activity_login_login_registration_button_text"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toStartOf="@+id/loginConfirmationButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginPassword" />
+
+    <Button
+        android:id="@+id/loginConfirmationButton"
+        style="@style/Base.Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/activity_login_login_confirmation_button_margin_end_"
+        android:layout_marginStart="@dimen/activity_login_login_confirmation_button_margin_start"
+        android:text="@string/activity_login_login_confirmation_button_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/loginRegistrationButton"
+        app:layout_constraintTop_toTopOf="@+id/loginRegistrationButton" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="@dimen/activity_login_guide_line_layout_constraint_guide_begin" />
+
+</android.support.constraint.ConstraintLayout>

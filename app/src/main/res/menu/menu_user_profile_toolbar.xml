@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/changeAvatar"
+        android:enabled="true"
+        android:icon="@drawable/ic_home"
+        android:title="@string/menu_user_profile_toolbar_first_item_title"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/changeName"
+        android:enabled="true"
+        android:icon="@drawable/ic_home"
+        android:title="@string/menu_user_profile_toolbar_second_item_title"
+        app:showAsAction="ifRoom" />
+</menu>

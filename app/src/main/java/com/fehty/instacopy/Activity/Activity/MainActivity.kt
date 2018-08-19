@@ -1,13 +1,13 @@
 package com.fehty.instacopy.Activity.Activity
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import com.fehty.instacopy.Activity.Fragments.ListOfPhotos
+import com.fehty.instacopy.Activity.BottomNavigationFragments.GalleryFragment
+import com.fehty.instacopy.Activity.BottomNavigationFragments.MainListFragment
+import com.fehty.instacopy.Activity.BottomNavigationFragments.TakePhotoFragment
+import com.fehty.instacopy.Activity.BottomNavigationFragments.UserProfileFragment
 import com.fehty.instacopy.R
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,11 +15,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
-        }
+        supportFragmentManager.beginTransaction().replace(R.id.container, MainListFragment()).commit()
 
-        supportFragmentManager.beginTransaction().replace(R.id.container, ListOfPhotos()).commit()
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.mainList -> supportFragmentManager.beginTransaction().addToBackStack(null).replace(R.id.container, MainListFragment()).commit()
+                R.id.takePhoto -> supportFragmentManager.beginTransaction().replace(R.id.container, TakePhotoFragment()).commit()
+                R.id.gallery -> supportFragmentManager.beginTransaction().replace(R.id.container, GalleryFragment()).commit()
+                R.id.myProfile -> supportFragmentManager.beginTransaction().addToBackStack(null).replace(R.id.container, UserProfileFragment()).commit()
+            }
+            true
+        }
     }
 }
 

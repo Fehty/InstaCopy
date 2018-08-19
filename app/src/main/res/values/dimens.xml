@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_login_login_title_text_size">24sp</dimen>
+    <dimen name="activity_login_login_title_margin_bottom">8dp</dimen>
+    <dimen name="activity_login_login_title_margin_top">8dp</dimen>
+    <dimen name="activity_login_login_email_height">35dp</dimen>
+    <dimen name="activity_login_login_email_margin_bottom">8dp</dimen>
+    <dimen name="activity_login_login_email_margin_end">24dp</dimen>
+    <dimen name="activity_login_login_email_margin_start">24dp</dimen>
+    <dimen name="activity_login_login_email_padding_end">5dp</dimen>
+    <dimen name="activity_login_login_email_padding_start">10dp</dimen>
+    <dimen name="activity_login_login_password_height">35dp</dimen>
+    <dimen name="activity_login_login_password_margin_end">24dp</dimen>
+    <dimen name="activity_login_login_password_margin_start">24dp</dimen>
+    <dimen name="activity_login_login_password_padding_end">5dp</dimen>
+    <dimen name="activity_login_login_password_padding_start">10dp</dimen>
+    <dimen name="activity_login_login_registration_button_margin_bottom">8dp</dimen>
+    <dimen name="activity_login_login_registration_button_margin_start">8dp</dimen>
+    <dimen name="activity_login_login_registration_button_margin_top">8dp</dimen>
+    <dimen name="activity_login_login_confirmation_button_margin_end_">8dp</dimen>
+    <dimen name="activity_login_login_confirmation_button_margin_start">8dp</dimen>
+    <dimen name="activity_login_guide_line_layout_constraint_guide_begin">550dp</dimen>
+</resources>

@@ -1,3 +1,32 @@
 <resources>
     <string name="app_name">InstaCopy</string>
+    <string name="menu_bottom_navigation_first_item_title">Home</string>
+    <string name="menu_bottom_navigation_second_item_title">Photo</string>
+    <string name="menu_bottom_navigation_third_item_title">Gallery</string>
+    <string name="menu_bottom_navigation_fourth_item_title">Account</string>
+    <string name="menu_user_profile_toolbar_first_item_title">Change Avatar</string>
+    <string name="menu_user_profile_toolbar_second_item_title">Change Name</string>
+    <string name="menu_navigation_first_item_title">Delete</string>
+    <string name="menu_navigation_second_item_title">Change Message Text</string>
+    <string name="activity_login_login_title_text">Login</string>
+    <string name="activity_login_login_email_hint_text">Email</string>
+    <string name="activity_login_login_email_tools_text">zxcv1234@gmail.com</string>
+    <string name="activity_login_login_password_hint_text">Password</string>
+    <string name="activity_login_login_password_tools_text">zxcvbnm12345</string>
+    <string name="activity_login_login_confirmation_button_text">OK</string>
+    <string name="activity_main_toolbar_user_settings_content_description">Settings toolbar</string>
+    <string name="activity_login_login_registration_button_text">Registration</string>
+    <string name="activity_registration_registration_title_text">Registration</string>
+    <string name="activity_registration_registration_name_hint">Name</string>
+    <string name="activity_registration_registration_email_hint">Email</string>
+    <string name="activity_registration_registration_password_hint">Password</string>
+    <string name="activity_registration_registration_back_button_text">Back</string>
+    <string name="activity_registration_registration_confirmation_button_text">OK</string>
+    <string name="fragment_user_profile_user_avatar_content_description">User Avatar</string>
+    <string name="template_message_photo_content_description">Posted photo</string>
+    <string name="template_message_add_like_image_button">Like image button</string>
+    <string name="template_message_add_comment_button_text">Add</string>
+    <string name="template_message_hide_show_comments_text">Show comments</string>
+    <string name="template_message_hide_show_comments_content_description">ImageButton showHide comments</string>
+    <string name="template_message_navigation_menu_content_description">Navigation menu to delete message or change text</string>
 </resources>
