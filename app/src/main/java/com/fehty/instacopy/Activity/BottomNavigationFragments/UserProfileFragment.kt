@@ -7,7 +7,6 @@ import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.PopupMenu
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,11 +44,12 @@ class UserProfileFragment(var myProfile: Boolean = true, var userId: Int? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.e("*#*#*", token)
+        activity!!.toolbarTakePhoto.visibility = View.GONE
+        activity!!.toolbarOpenGallery.visibility = View.GONE
 
         if (myProfile == true) {
-            activity!!.toolbarUserSettings.visibility = View.VISIBLE
             Picasso.get().load("http://178.128.239.249/user/avatar?token=$token").into(userAvatar)
+            activity!!.toolbarUserSettings.visibility = View.VISIBLE
             getUserNameEmailByToken()
             getUserMessagesByToken()
             activity!!.toolbarUserSettings.setOnClickListener { showPopupMenu(it) }
@@ -65,19 +65,24 @@ class UserProfileFragment(var myProfile: Boolean = true, var userId: Int? = null
         MyApplication().retrofit.getUserNameEmailByToken(token).enqueue(object : Callback<UserProfileData> {
             override fun onFailure(call: Call<UserProfileData>?, t: Throwable?) = Unit
             override fun onResponse(call: Call<UserProfileData>?, response: Response<UserProfileData>?) {
-                firstName.text = response!!.body()!!.name
-                userName = response.body()!!.name
-                email.text = response.body()!!.email
+                if (mainUserName != null) {
+                    mainUserName.text = response!!.body()!!.name
+                    userName = response.body()!!.name
+                    email.text = response.body()!!.email
+                }
             }
         })
-        Picasso.get().load("http://178.128.239.249/user/avatar?token=$token").into(userAvatar)
     }
 
     fun getUserMessagesByToken() {
+        val listOfPhotos = mutableListOf<MessageData>()
+        val adapter = RecyclerViewAdapter(MainListFragment(), listOfPhotos, true, this@UserProfileFragment)
+        val layoutManager = GridLayoutManager(activity, 2)
+        recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = adapter
         MyApplication().retrofit.getUserMessagesByToken(token).enqueue(object : Callback<List<MessageData>> {
             override fun onFailure(call: Call<List<MessageData>>?, t: Throwable?) = Unit
             override fun onResponse(call: Call<List<MessageData>>?, response: Response<List<MessageData>>?) {
-                val listOfPhotos = mutableListOf<MessageData>()
                 response!!.body()!!.forEach {
                     if (it.filename != null && it.userId != null) {
                         if (it.comments != null) {
@@ -87,10 +92,7 @@ class UserProfileFragment(var myProfile: Boolean = true, var userId: Int? = null
                         }
                     }
                 }
-                val adapter = RecyclerViewAdapter(MainListFragment(), listOfPhotos, true, this@UserProfileFragment)
-                val layoutManager = GridLayoutManager(activity, 2)
-                recyclerView.layoutManager = layoutManager
-                recyclerView.adapter = adapter
+                adapter.notifyDataSetChanged()
             }
         })
     }
@@ -99,17 +101,21 @@ class UserProfileFragment(var myProfile: Boolean = true, var userId: Int? = null
         MyApplication().retrofit.getUserNameEmailByUserId(userId!!).enqueue(object : Callback<UserProfileData> {
             override fun onFailure(call: Call<UserProfileData>?, t: Throwable?) = Unit
             override fun onResponse(call: Call<UserProfileData>?, response: Response<UserProfileData>?) {
-                firstName.text = response!!.body()!!.name
+                mainUserName.text = response!!.body()!!.name
                 email.text = response.body()!!.email
             }
         })
     }
 
-    private fun getUserMessagesById() {
+    fun getUserMessagesById() {
+        val listOfPhotos = mutableListOf<MessageData>()
+        val adapter = RecyclerViewAdapter(MainListFragment(), listOfPhotos, true)
+        val layoutManager = GridLayoutManager(activity, 2)
+        recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = adapter
         MyApplication().retrofit.getUserMessagesById(userId!!).enqueue(object : Callback<List<MessageData>> {
             override fun onFailure(call: Call<List<MessageData>>?, t: Throwable?) = Unit
             override fun onResponse(call: Call<List<MessageData>>?, response: Response<List<MessageData>>?) {
-                val listOfPhotos = mutableListOf<MessageData>()
                 response!!.body()!!.forEach {
                     if (it.filename != null && it.userId != null) {
                         if (it.comments != null) {
@@ -119,10 +125,7 @@ class UserProfileFragment(var myProfile: Boolean = true, var userId: Int? = null
                         }
                     }
                 }
-                val adapter = RecyclerViewAdapter(MainListFragment(), listOfPhotos, false)
-                val layoutManager = GridLayoutManager(activity, 2)
-                recyclerView.layoutManager = layoutManager
-                recyclerView.adapter = adapter
+                adapter.notifyDataSetChanged()
             }
         })
     }
@@ -168,11 +171,12 @@ class UserProfileFragment(var myProfile: Boolean = true, var userId: Int? = null
                 override fun onFailure(call: Call<String>?, t: Throwable?) = Unit
             })
         }
+        activity!!.toolbarUserSettings.visibility = View.VISIBLE
+        activity!!.toolbarUserSettings.setOnClickListener { showPopupMenu(it) }
     }
 
     override fun onPause() {
         super.onPause()
         activity!!.toolbarUserSettings.visibility = View.INVISIBLE
     }
-
 }

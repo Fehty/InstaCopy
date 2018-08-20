@@ -30,11 +30,15 @@ import java.util.*
 
 class TakePhotoFragment : Fragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         if (ContextCompat.checkSelfPermission(this.context!!, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this.activity!!, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
         } else takePhotoIntent()
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_take_photo, container, false)
     }
 
@@ -64,9 +68,8 @@ class TakePhotoFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 1) {
-            //chosenPhoto.rotation = 90F
-            //chosenPhoto.setImageURI(Uri.parse(currentPhotoPath))
-            uploadDataToServer()
+            if (currentPhotoPath != null) uploadDataToServer()
+            else fragmentManager!!.beginTransaction().replace(R.id.container, MainListFragment()).commit()
         }
     }
 
@@ -83,7 +86,9 @@ class TakePhotoFragment : Fragment() {
 
         MyApplication().retrofit.uploadMessage(message, fileData, token).enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>?, response: Response<String>?) = Unit
-            override fun onFailure(call: Call<String>?, t: Throwable?) = Unit
+            override fun onFailure(call: Call<String>?, t: Throwable?) {
+                fragmentManager!!.beginTransaction().replace(R.id.container, MainListFragment()).commit()
+            }
         })
     }
 }

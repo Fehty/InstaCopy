@@ -20,12 +20,13 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.mainList -> supportFragmentManager.beginTransaction().addToBackStack(null).replace(R.id.container, MainListFragment()).commit()
-                R.id.takePhoto -> supportFragmentManager.beginTransaction().replace(R.id.container, TakePhotoFragment()).commit()
-                R.id.gallery -> supportFragmentManager.beginTransaction().replace(R.id.container, GalleryFragment()).commit()
                 R.id.myProfile -> supportFragmentManager.beginTransaction().addToBackStack(null).replace(R.id.container, UserProfileFragment()).commit()
             }
             true
         }
+
+        toolbarTakePhoto.setOnClickListener { supportFragmentManager.beginTransaction().replace(R.id.container, TakePhotoFragment()).commit() }
+        toolbarOpenGallery.setOnClickListener { supportFragmentManager.beginTransaction().replace(R.id.container, GalleryFragment()).commit() }
     }
 }
 

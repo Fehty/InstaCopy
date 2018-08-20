@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
+import android.view.Gravity
 import android.widget.EditText
 import com.fehty.instacopy.Activity.Application.MyApplication
 import com.fehty.instacopy.Activity.BottomNavigationFragments.UserProfileFragment
@@ -19,9 +20,9 @@ class EditTextFragmentDialog(var userProfileFragment: UserProfileFragment, var m
         val builder = AlertDialog.Builder(activity)
         val editText = EditText(activity)
         editText.setText(messageData.text)
+        editText.gravity = Gravity.CENTER
         builder
-                .setTitle("Confirmation")
-                .setMessage(messageData.text)
+                .setTitle("Change message text")
                 .setView(editText)
                 .setPositiveButton("Ok") { p0, p1 ->
                     MyApplication().retrofit.editMessage(messageData.id, editText.text.toString()).enqueue(object : Callback<MessageData> {

@@ -8,18 +8,6 @@
         android:title="@string/menu_bottom_navigation_first_item_title"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/takePhoto"
-        android:enabled="true"
-        android:icon="@drawable/ic_camera"
-        android:title="@string/menu_bottom_navigation_second_item_title"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/gallery"
-        android:enabled="true"
-        android:icon="@drawable/ic_gallery"
-        android:title="@string/menu_bottom_navigation_third_item_title"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/myProfile"
         android:enabled="true"
         android:icon="@drawable/ic_account"

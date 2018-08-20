@@ -6,6 +6,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.util.Log
+import android.view.Gravity
 import android.widget.EditText
 import com.fehty.instacopy.Activity.Application.MyApplication
 import com.fehty.instacopy.Activity.BottomNavigationFragments.UserProfileFragment
@@ -22,10 +23,10 @@ class UserSettingsFragmentDialog(var userProfileFragment: UserProfileFragment, v
         val token = Realm.getDefaultInstance().where(TokenRealm::class.java).findFirst()!!.userToken!!
         val builder = AlertDialog.Builder(activity)
         val userNameEditText = EditText(activity)
+        userNameEditText.gravity = Gravity.CENTER
         userNameEditText.setText(userName)
         builder
-                .setTitle("Confirmation")
-                .setMessage("Are you sure?")
+                .setTitle("New name")
                 .setView(userNameEditText)
                 .setPositiveButton("Ok") { p0, p1 ->
                     if (userNameEditText.text.toString() != userName) {

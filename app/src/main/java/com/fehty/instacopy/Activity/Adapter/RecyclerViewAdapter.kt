@@ -75,8 +75,17 @@ class RecyclerViewAdapter(
                     override fun onResponse(call: Call<List<UsersWhoLikedPostData>>?, response: Response<List<UsersWhoLikedPostData>>?) = Unit
                     override fun onFailure(call: Call<List<UsersWhoLikedPostData>>?, t: Throwable?) = Unit
                 })
-                if (inUserProfileFragment) userProfileFragment!!.getUserMessagesByToken()
-                else mainListFragment.getDataFromServer()
+//                if (inUserProfileFragment == true) {
+//                    try {
+//                        userProfileFragment!!.getUserMessagesByToken()
+//                    } catch (ex: Exception) {
+//                        userProfileFragment!!.getUserMessagesById()
+//                    }
+                if (userProfileFragment!!.myProfile == true) {
+                    userProfileFragment!!.getUserMessagesByToken()
+                } else if (userProfileFragment!!.myProfile == false) {
+                    userProfileFragment!!.getUserMessagesById()
+                } else mainListFragment.getDataFromServer()
             }
 
             navigationMenu.setOnClickListener {
@@ -105,10 +114,12 @@ class RecyclerViewAdapter(
                 }
             }
 
-            userId.setOnClickListener {
-                mainListFragment.fragmentManager!!.beginTransaction().addToBackStack(null)
-                        .replace(R.id.container, UserProfileFragment(false, messageData.userId))
-                        .commit()
+            if (inUserProfileFragment == false) {
+                userId.setOnClickListener {
+                    mainListFragment.fragmentManager!!.beginTransaction().addToBackStack(null)
+                            .replace(R.id.container, UserProfileFragment(false, messageData.userId))
+                            .commit()
+                }
             }
 
             if (messageData.comments != null) {

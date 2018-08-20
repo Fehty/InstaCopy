@@ -53,7 +53,7 @@ class GalleryFragment : Fragment() {
                 galleryImagePath = imagePath
                 uploadDataToServer()
                 cursor.close()
-            }
+            } else fragmentManager!!.beginTransaction().replace(R.id.container, MainListFragment()).commit()
         }
     }
 
@@ -70,7 +70,9 @@ class GalleryFragment : Fragment() {
 
         MyApplication().retrofit.uploadMessage(message, fileData, token).enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>?, response: Response<String>?) = Unit
-            override fun onFailure(call: Call<String>?, t: Throwable?) = Unit
+            override fun onFailure(call: Call<String>?, t: Throwable?) {
+                fragmentManager!!.beginTransaction().replace(R.id.container, MainListFragment()).commit()
+            }
         })
     }
 }
