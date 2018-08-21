@@ -8,13 +8,16 @@ import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.fehty.instacopy.Activity.Application.MyApplication
+import com.fehty.instacopy.Activity.BottomNavigationFragments.Home.HomeFragment
 import com.fehty.instacopy.Activity.Realm.TokenRealm
 import com.fehty.instacopy.R
 import io.realm.Realm
+import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -27,10 +30,29 @@ class GalleryFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        if (ContextCompat.checkSelfPermission(this.context!!, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this.activity!!, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
-        } else openGalleryIntent()
+        checkStoragePermissionToOpenGallery()
         return inflater.inflate(R.layout.fragment_gallery, container, false)
+    }
+
+    fun checkStoragePermissionToOpenGallery() {
+        if (ContextCompat.checkSelfPermission(this.context!!, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this.activity!!, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 2)
+        } else openGalleryIntent()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            0 -> {
+                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //permission accepted.
+                    openGalleryIntent()
+                } else {
+                    Log.e("#*#*#*", "0")
+                }
+                return
+            }
+        }
     }
 
     private var galleryImagePath: String? = null
@@ -53,13 +75,14 @@ class GalleryFragment : Fragment() {
                 galleryImagePath = imagePath
                 uploadDataToServer()
                 cursor.close()
-            } else fragmentManager!!.beginTransaction().replace(R.id.container, MainListFragment()).commit()
+            } else fragmentManager!!.beginTransaction().replace(R.id.container, HomeFragment()).commit()
         }
     }
 
     private fun uploadDataToServer() {
+        activity!!.progressBar.visibility = View.VISIBLE
 
-        val message = RequestBody.create(MediaType.parse("text/plain"), "Upload")
+        val message = RequestBody.create(MediaType.parse("text/plain"), "")
 
         val file = File(galleryImagePath)
         val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
@@ -71,7 +94,7 @@ class GalleryFragment : Fragment() {
         MyApplication().retrofit.uploadMessage(message, fileData, token).enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>?, response: Response<String>?) = Unit
             override fun onFailure(call: Call<String>?, t: Throwable?) {
-                fragmentManager!!.beginTransaction().replace(R.id.container, MainListFragment()).commit()
+                fragmentManager!!.beginTransaction().replace(R.id.container, HomeFragment()).commit()
             }
         })
     }

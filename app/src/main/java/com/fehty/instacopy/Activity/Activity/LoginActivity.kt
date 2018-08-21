@@ -16,12 +16,12 @@ import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
 
-    private val realm = Realm.getDefaultInstance()
-    private val tokenRealm = TokenRealm()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        val realm = Realm.getDefaultInstance()
+        val tokenRealm = TokenRealm()
 
         if (realm.where(TokenRealm::class.java).findFirst() != null) {
             val intent = Intent(this@LoginActivity, MainActivity::class.java)

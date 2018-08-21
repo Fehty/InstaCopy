@@ -23,6 +23,9 @@ interface ApiMethods {
     @GET("/user/profile")
     fun getUserNameEmailByToken(@Query("token") token: String): Call<UserProfileData>
 
+    @GET("/message")
+    fun getMessageById(@Query("messageId") messageId: Int): Call<MessageData>
+
     @POST("/register")
     fun register(@Body registrationData: RegistrationData): Call<String>
 

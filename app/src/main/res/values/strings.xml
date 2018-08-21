@@ -2,7 +2,7 @@
     <string name="app_name">InstaCopy</string>
     <string name="menu_bottom_navigation_first_item_title">Home</string>
     <string name="menu_bottom_navigation_fourth_item_title">Account</string>
-    <string name="menu_user_profile_toolbar_first_item_title">Change Avatar</string>
+    <string name="menu_user_profile_toolbar_first_item_title">Change photo with camera</string>
     <string name="menu_user_profile_toolbar_second_item_title">Change Name</string>
     <string name="menu_navigation_first_item_title">Delete</string>
     <string name="menu_navigation_second_item_title">Change Message Text</string>
@@ -29,4 +29,7 @@
     <string name="template_message_navigation_menu_content_description">Navigation menu to delete message or change text</string>
     <string name="toolbar_take_photo">Take photo</string>
     <string name="toolbar_open_gallery">Open Gallery</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

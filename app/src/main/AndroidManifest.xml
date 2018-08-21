@@ -28,6 +28,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
         <activity
             android:name=".Activity.Activity.MainActivity"
             android:screenOrientation="portrait" />
@@ -36,6 +37,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.Activity.LoginActivity"
+            android:noHistory="true"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

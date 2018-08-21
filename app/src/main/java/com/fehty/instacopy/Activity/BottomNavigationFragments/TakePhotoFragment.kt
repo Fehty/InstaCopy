@@ -15,9 +15,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.fehty.instacopy.Activity.Application.MyApplication
+import com.fehty.instacopy.Activity.BottomNavigationFragments.Home.HomeFragment
 import com.fehty.instacopy.Activity.Realm.TokenRealm
 import com.fehty.instacopy.R
 import io.realm.Realm
+import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -32,6 +34,10 @@ class TakePhotoFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        checkStoragePermissionToTakePhoto()
+    }
+
+    fun checkStoragePermissionToTakePhoto() {
         if (ContextCompat.checkSelfPermission(this.context!!, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this.activity!!, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
         } else takePhotoIntent()
@@ -67,15 +73,16 @@ class TakePhotoFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        activity!!.progressBar.visibility = View.VISIBLE
         if (requestCode == 1) {
             if (currentPhotoPath != null) uploadDataToServer()
-            else fragmentManager!!.beginTransaction().replace(R.id.container, MainListFragment()).commit()
+            else fragmentManager!!.beginTransaction().replace(R.id.container, HomeFragment()).commit()
         }
     }
 
     private fun uploadDataToServer() {
 
-        val message = RequestBody.create(MediaType.parse("text/plain"), "Uploaded")
+        val message = RequestBody.create(MediaType.parse("text/plain"), "")
 
         val file = File(currentPhotoPath)
         val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
@@ -85,9 +92,12 @@ class TakePhotoFragment : Fragment() {
         val token = RequestBody.create(MediaType.parse("text/plain"), tokenRealm!!)
 
         MyApplication().retrofit.uploadMessage(message, fileData, token).enqueue(object : Callback<String> {
-            override fun onResponse(call: Call<String>?, response: Response<String>?) = Unit
+            override fun onResponse(call: Call<String>?, response: Response<String>?) {
+                fragmentManager!!.beginTransaction().replace(R.id.container, HomeFragment()).commit()
+            }
+
             override fun onFailure(call: Call<String>?, t: Throwable?) {
-                fragmentManager!!.beginTransaction().replace(R.id.container, MainListFragment()).commit()
+                fragmentManager!!.beginTransaction().replace(R.id.container, HomeFragment()).commit()
             }
         })
     }
