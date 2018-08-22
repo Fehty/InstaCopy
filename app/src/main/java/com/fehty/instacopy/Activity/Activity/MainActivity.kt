@@ -1,10 +1,7 @@
 package com.fehty.instacopy.Activity.Activity
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.View
 import com.fehty.instacopy.Activity.BottomNavigationFragments.GalleryFragment
 import com.fehty.instacopy.Activity.BottomNavigationFragments.Home.HomeFragment
@@ -44,23 +41,6 @@ class MainActivity : AppCompatActivity() {
         super.onBackPressed()
         supportActionBar!!.setDisplayHomeAsUpEnabled(false)
         bottomNavigationView.visibility = View.VISIBLE
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        if (requestCode == 1) {
-            if (permissions[0].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-              //  MyProfileFragment().takePhotoIntent()
-                Log.e("*#*#*", "1")
-            }
-        } else if (requestCode == 2) {
-            if (permissions[0].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-           //     MyProfileFragment().openGalleryIntent()
-                Log.e("*#*#*", "2")
-            }
-        }
-        toolbarUserSettings.visibility = View.VISIBLE
     }
 }
 

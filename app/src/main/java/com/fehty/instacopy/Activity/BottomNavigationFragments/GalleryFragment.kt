@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.MediaStore
-import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.util.Log
@@ -36,22 +35,21 @@ class GalleryFragment : Fragment() {
 
     fun checkStoragePermissionToOpenGallery() {
         if (ContextCompat.checkSelfPermission(this.context!!, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this.activity!!, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 2)
+            // ActivityCompat.requestPermissions(this.activity!!, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 2)
+            requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 2)
         } else openGalleryIntent()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
-            0 -> {
-                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //permission accepted.
+            2 ->
+                if (activity!!.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
                     openGalleryIntent()
-                } else {
-                    Log.e("#*#*#*", "0")
+                else {
+                    Log.e("#*#*#*", "!Granted!!!")
+                    fragmentManager!!.beginTransaction().replace(R.id.container, HomeFragment()).commit()
                 }
-                return
-            }
         }
     }
 
@@ -94,7 +92,7 @@ class GalleryFragment : Fragment() {
         MyApplication().retrofit.uploadMessage(message, fileData, token).enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>?, response: Response<String>?) = Unit
             override fun onFailure(call: Call<String>?, t: Throwable?) {
-                fragmentManager!!.beginTransaction().replace(R.id.container, HomeFragment()).commit()
+                fragmentManager?.beginTransaction()?.replace(R.id.container, HomeFragment())?.commit()
             }
         })
     }

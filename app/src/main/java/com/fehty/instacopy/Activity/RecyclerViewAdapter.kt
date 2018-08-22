@@ -75,7 +75,7 @@ class RecyclerViewAdapter(
 //
 //            navigationMenu.setOnClickListener {
 //                val popupMenu = PopupMenu(it.context, it)
-//                popupMenu.menuInflater.inflate(R.menu.menu_navigation, popupMenu.menu)
+//                popupMenu.menuInflater.inflate(R.menu.menu_photo_settings, popupMenu.menu)
 //                popupMenu.setOnMenuItemClickListener {
 //                    if (it.itemId == R.id.deleteMessage) DeleteMessageFragmentDialog(userProfileFragment!!, messageData.id).show(userProfileFragment!!.fragmentManager, "4")
 //                    else if (it.itemId == R.id.changeMessageText) EditTextFragmentDialog(userProfileFragment!!, messageData).show(userProfileFragment!!.fragmentManager, "2")

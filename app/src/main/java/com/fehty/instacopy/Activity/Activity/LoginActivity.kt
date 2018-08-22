@@ -3,6 +3,8 @@ package com.fehty.instacopy.Activity.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import android.widget.Toast
 import com.fehty.instacopy.Activity.Application.MyApplication
 import com.fehty.instacopy.Activity.Data.LoginData
 import com.fehty.instacopy.Activity.Data.UserTokenData
@@ -34,13 +36,22 @@ class LoginActivity : AppCompatActivity() {
             else {
                 val loginJsonData = LoginData(loginEmail.text.toString(), loginPassword.text.toString())
                 MyApplication().retrofit.login(loginJsonData).enqueue(object : Callback<UserTokenData> {
-                    override fun onFailure(call: Call<UserTokenData>?, t: Throwable?) = Unit
+                    override fun onFailure(call: Call<UserTokenData>?, t: Throwable?) {
+                        Toast.makeText(this@LoginActivity, "Wrong Data", Toast.LENGTH_SHORT).show()
+                    }
+
                     override fun onResponse(call: Call<UserTokenData>?, response: Response<UserTokenData>?) {
-                        realm.executeTransaction {
-                            tokenRealm.userToken = response!!.body()!!.value
-                            realm.insertOrUpdate(tokenRealm)
+                        Log.e("#**#*", response!!.body()!!.value)
+                        if (response?.body()?.value != null) {
+                            realm.executeTransaction {
+                                realm.where(TokenRealm::class.java).findAll().deleteAllFromRealm()
+                                tokenRealm.userToken = response!!.body()!!.value
+                                realm.insertOrUpdate(tokenRealm)
+                            }
                             val intent = Intent(this@LoginActivity, MainActivity::class.java)
                             startActivity(intent)
+                        } else {
+                            Toast.makeText(this@LoginActivity, "Wrong Data", Toast.LENGTH_SHORT).show()
                         }
                     }
                 })

@@ -59,11 +59,17 @@ class HomeAdapter(var homeFragment: HomeFragment, var list: MutableList<MessageD
             photoDescription.text = messageData.text
             Picasso.get().load("http://178.128.239.249/${messageData.filename}").into(photo)
 
+            photo.setOnClickListener {
+                homeFragment.fragmentManager!!.beginTransaction().addToBackStack(null)
+                        .replace(R.id.container, HomeOneMessageFragment(messageData)).commit()
+            }
+
             addLikeButton.setOnClickListener {
                 MyApplication().retrofit.addLike(messageData.id, token).enqueue(object : Callback<List<UsersWhoLikedPostData>> {
                     override fun onResponse(call: Call<List<UsersWhoLikedPostData>>?, response: Response<List<UsersWhoLikedPostData>>?) {
                         homeFragment.getDataFromServer()
                     }
+
                     override fun onFailure(call: Call<List<UsersWhoLikedPostData>>?, t: Throwable?) {
                         homeFragment.getDataFromServer()
                     }
@@ -72,12 +78,12 @@ class HomeAdapter(var homeFragment: HomeFragment, var list: MutableList<MessageD
 
             usersWhoLikedPostData.text = messageData.likes.size.toString()
 
+            commentsNumber.text = messageData.comments!!.size.toString()
+
             hideShowComments.setOnClickListener {
                 homeFragment.fragmentManager!!.beginTransaction().addToBackStack(null)
                         .replace(R.id.container, HomeOneMessageFragment(messageData)).commit()
             }
-
-            commentsNumber.text = messageData.comments!!.size.toString()
         }
     }
 }

@@ -11,10 +11,11 @@
         android:layout_height="200dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:src="@mipmap/ic_launcher"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userId" />
+        app:layout_constraintTop_toBottomOf="@+id/photoDescription" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -130,4 +131,12 @@
         app:layout_constraintStart_toEndOf="@+id/commentIcon"
         app:layout_constraintTop_toTopOf="@+id/commentIcon"
         tools:text="3" />
+
+    <TextView
+        android:id="@+id/photoDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/userId"
+        app:layout_constraintTop_toBottomOf="@+id/userId"
+        tools:text="Description" />
 </android.support.constraint.ConstraintLayout>

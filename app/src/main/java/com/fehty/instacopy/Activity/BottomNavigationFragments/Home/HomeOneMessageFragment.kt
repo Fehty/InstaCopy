@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.fehty.instacopy.Activity.Activity.MainActivity
 import com.fehty.instacopy.Activity.Application.MyApplication
 import com.fehty.instacopy.Activity.Data.AddCommentData
@@ -22,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_home_one_message.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 @SuppressLint("ValidFragment")
 class HomeOneMessageFragment(var messageData: MessageData) : Fragment() {
@@ -49,6 +51,7 @@ class HomeOneMessageFragment(var messageData: MessageData) : Fragment() {
 
         userId.text = messageData.userId.toString()
         usersWhoLikedPost.text = messageData.likes.size.toString()
+        photoDescription.text = messageData.text
 
         usersWhoCommentedPost.text = messageData.comments!!.size.toString()
 
@@ -67,27 +70,37 @@ class HomeOneMessageFragment(var messageData: MessageData) : Fragment() {
         val token = Realm.getDefaultInstance().where(TokenRealm::class.java).findFirst()!!.userToken!!
 
         addComment.setOnClickListener {
-            MyApplication().retrofit.addComment(messageData.id, AddCommentData(comment.text.toString().trim()), token).enqueue(object : Callback<String> {
-                override fun onResponse(call: Call<String>?, response: Response<String>?) = Unit
-                override fun onFailure(call: Call<String>?, t: Throwable?) {
-                    getMessageData()
+
+            try {
+                if (comment.text.toString().isNotEmpty()) {
+                    MyApplication().retrofit.addComment(messageData.id, AddCommentData(comment.text.toString().trim()), token).enqueue(object : Callback<String> {
+                        override fun onResponse(call: Call<String>?, response: Response<String>?) = Unit
+                        override fun onFailure(call: Call<String>?, t: Throwable?) {
+                            getMessageData()
+                        }
+                    })
+                    comment.text.clear()
+                } else {
+                    Toast.makeText(activity, "Empty field", Toast.LENGTH_SHORT).show()
                 }
-            })
-            comment.text.clear()
+            } catch (ex: Exception) {
+                Toast.makeText(activity, "Empty field", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     fun getMessageData() {
+        recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.adapter = adapter
         MyApplication().retrofit.getMessageById(messageData.id).enqueue(object : Callback<MessageData> {
             override fun onFailure(call: Call<MessageData>?, t: Throwable?) = Unit
             override fun onResponse(call: Call<MessageData>?, response: Response<MessageData>?) {
                 comments.clear()
-                recyclerView.layoutManager = LinearLayoutManager(activity)
                 response!!.body()!!.comments!!.forEach { comments.add(CommentData(it.user, it.text)) }
-                recyclerView.adapter = adapter
-                activity!!.progressBar.visibility = View.GONE
+                adapter.notifyDataSetChanged()
                 usersWhoLikedPost.text = response.body()!!.likes.size.toString()
                 usersWhoCommentedPost.text = response.body()!!.comments!!.size.toString()
+                activity!!.progressBar.visibility = View.GONE
             }
         })
     }

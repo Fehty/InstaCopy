@@ -12,6 +12,7 @@ import com.fehty.instacopy.Activity.Data.MessageData
 import com.fehty.instacopy.Activity.Data.UserProfileData
 import com.fehty.instacopy.Activity.Realm.TokenRealm
 import com.fehty.instacopy.R
+import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
@@ -39,10 +40,9 @@ class AnotherProfileFragment(var userId: Int) : Fragment() {
         activity!!.toolbarOpenGallery.visibility = View.GONE
         activity!!.toolbarUserSettings.visibility = View.GONE
 
-        Picasso.get().load("http://178.128.239.249/user/avatar?userId=$userId").into(userAvatar)
+        Picasso.get().load("http://178.128.239.249/user/avatar?userId=$userId").memoryPolicy(MemoryPolicy.NO_CACHE).into(userAvatar)
         getUserNameById()
         getUserMessagesById()
-
     }
 
     private fun getUserNameById() {
